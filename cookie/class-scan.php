@@ -20,10 +20,36 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
 			add_filter( 'cmplz_do_action', array( $this, 'get_scan_progress' ), 10, 3 );
 			add_filter( 'cmplz_do_action', array( $this, 'reset_scan' ), 11, 3 );
+			add_filter( 'cmplz_every_five_minutes_hook', array( $this, 'background_remote_scan' ), 11, 3 );
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * If the remote scan is active, or has started, and we're not on a complianz page, run this on cron in the background
+		 * @return void
+		 */
+		public function background_remote_scan(){
+
+			if ( !wp_doing_cron() ) {
+				return;
+			}
+
+			if ( isset($_GET['page'] ) && $_GET['page'] === 'complianz' ) {
+				return;
+			}
+
+			$url = $this->get_next_page_url();
+			if ( ! $url ) {
+				return;
+			}
+
+			if ( $url === 'remote' && !COMPLIANZ::$wsc_scanner->wsc_scan_completed() ) {
+				//as the wsc cookie scan has a wait of 10 seconds on each request, we do this on cron
+				do_action('cmplz_remote_cookie_scan');
+			}
 		}
 
 		/**
@@ -178,50 +204,6 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		}
 
 		/**
-		 *
-		 * Get list of page id's that we want to process this set of scan requests, which weren't included in the scan before
-		 *
-		 * @return string $url
-		 * *@since 1.0
-		 */
-
-		public function get_remote_scan_url() {
-			if ( !cmplz_user_can_manage() ) {
-				return false;
-			}
-
-			//homepage is not always a post.
-			if ( !get_option('cmplz_remote_homepage_scanned') ) {
-				update_option('cmplz_remote_homepage_scanned', true, false);
-				return site_url();
-			}
-
-			//from each post type, get one, for faster results.
-			$post_types = $this->get_scannable_post_types();
-			$args      = array(
-					'post_type'      => $post_types,
-					'posts_per_page' => 1,
-					'meta_query'     => array(
-							array(
-									'key'     => '_cmplz_remote_scanned_post',
-									'compare' => 'NOT EXISTS'
-							),
-					)
-			);
-			$posts = get_posts( $args );
-
-			if ( count( $posts ) > 0 ) {
-				$post = reset( $posts );
-				update_post_meta( $post->ID, '_cmplz_remote_scanned_post', true );
-				return get_permalink( $post->ID );
-			}
-
-			//reset all posts, so we can start over.
-			delete_post_meta_by_key( '_cmplz_remote_scanned_post' );
-			return site_url();
-		}
-
-		/**
 		 * Insert an iframe to retrieve front-end cookies
 		 *
 		 *
@@ -274,7 +256,8 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				}
 
 				if ( $url === 'remote' ) {
-					do_action('cmplz_remote_cookie_scan');
+					//as the wsc cookie scan has a wait of 10 seconds on each request, we do this on cron instead
+					//do_action('cmplz_remote_cookie_scan');
 				} else if ( strpos( $url, 'complianz_id' ) !== false ) {
 					//get the html of this page.
 					$response = wp_remote_get( $url );
@@ -499,14 +482,20 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return '';
 			}
-
 			$token = wp_create_nonce( 'complianz_scan_token' );
 			$pages = array_filter($this->pages_to_process());
 			if ( count( $pages ) === 0 ) {
 				return false;
 			}
 			$id_to_process = reset( $pages );
-			$this->set_page_as_processed( $id_to_process );
+
+			//in case of remote, we want to wait until the process has completed before moving on to the next.
+			if ( $id_to_process !== 'remote' ) {
+				$this->set_page_as_processed( $id_to_process );
+			} else if ( COMPLIANZ::$wsc_scanner->wsc_scan_completed() ) {
+				$this->set_page_as_processed( $id_to_process );
+			}
+
 			switch ( $id_to_process ) {
 				case 'remote':
 					return 'remote';
@@ -796,7 +785,10 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				$next_url = $this->get_next_page_url();
 				if ($next_url==='remote') {
 					do_action('cmplz_remote_cookie_scan');
-					$next_url = $this->get_next_page_url();
+					//only proceed to next page if remote scan is complete
+					if ( COMPLIANZ::$wsc_scanner->wsc_scan_completed() ) {
+						$next_url = $this->get_next_page_url();
+					}
 				} else if ( strpos( $next_url, 'complianz_id' ) !== false ) {
 					$response = wp_remote_get( $next_url );
 					if ( ! is_wp_error( $response ) ) {
@@ -846,6 +838,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				}
 
 				if ( $scan_type==='reset' || $scan_type==='restart' ) {
+					COMPLIANZ::$wsc_scanner->wsc_scan_reset();
 					$this->reset_pages_list( false, true );
 					COMPLIANZ::$sync->resync();
 				}
@@ -862,11 +855,22 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		 */
 
 		public function get_progress_count() {
-			$done  = $this->get_processed_pages_list();
-			$total = $this->get_pages_list_single_run();
+
+			$remote_scan_total = 100;
+			$remote_scan_progress = COMPLIANZ::$wsc_scanner->wsc_scan_progress();
+
+			$local_done  = count($this->get_processed_pages_list());
+			$local_total = count($this->get_pages_list_single_run());
+
+			//convert local to a 100 scale
 			//prevent division by zero
-			$total = count($total) === 0 ? count($done) : count($total);
-			$progress = 100 * ( count( $done ) /  $total);
+			$local_total = $local_total === 0 ? $local_done : $local_total;
+			$local_done = 100 * ( $local_done / $local_total);
+
+			$total = 200;
+			$done = $remote_scan_progress + $local_done;
+
+			$progress = 100 * ( $done / $total);
 			if ( $progress > 100 ) {
 				$progress = 100;
 			}

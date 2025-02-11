@@ -1226,6 +1226,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					fwrite($handle, $css);
 					fclose($handle);
 				}
+				// Trigger the action after file generation to allow custom handling
+				do_action('cmplz_after_css_generation', $file, $css, $upload_dir, $banner_id, $consent_type);
 			}
 			delete_transient('cmplz_generate_css_active' );
 		}

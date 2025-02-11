@@ -1,0 +1,42 @@
+// actions
+.cmplz-wsc {
+	$darken-red: #ac1e31; // darken --rsp-rd 20%
+	$button-x-padding: 30px;
+	&_actions {
+		padding: 0;
+		margin: 0 -25px -25px;
+		background-color: var(--rsp-grey-100);
+		border-top: 1px solid var(--rsp-grey-300);
+
+		&-row {
+			display: flex;
+		}
+
+		&-buttons {
+			margin-left: auto;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			gap: var(--rsp-spacing-s);
+
+			@media screen and (min-width: 782.1px) and (max-width: 1080px) {
+				.button {
+					padding-right: $button-x-padding;
+					padding-left: $button-x-padding;
+				}
+			}
+
+			.button.button-danger {
+				background-color: var(--rsp-red);
+				border-color: $darken-red;
+				color: white;
+			}
+
+			.button.button-danger:hover {
+				background-color: $darken-red;
+				border-color: $darken-red;
+				color: white;
+			}
+		}
+	}
+}

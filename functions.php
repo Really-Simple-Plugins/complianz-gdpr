@@ -2851,6 +2851,22 @@ if ( ! function_exists('cmplz_requires_quebec_notice') ) {
 	}
 }
 
+
+if (!function_exists('cmplz_wsc_is_enabled')) {
+	/**
+	 * Helper function to check if the wsc is enabled,
+	 * then show/hide input fields on wsc settings page.
+	 *
+	 * @return bool
+	 */
+	function cmplz_wsc_is_enabled(): bool
+	{
+		$signup_status = get_option('cmplz_wsc_signup_status') === 'enabled'; // true if === "enabled"
+
+		return $signup_status;
+	}
+}
+
 if ( ! function_exists('cmplz_targets_quebec') ) {
 	if ( cmplz_get_option('ca_targets_quebec') === 'yes') {
 		return true;

@@ -1,0 +1,20 @@
+.cmplz-wsc-status-row {
+	display:flex;
+	.cmplz-icon {
+		margin-right:10px;
+	}
+	.cmplz-wsc-alert {
+		padding: var(--rsp-spacing-s) var(--rsp-spacing-m);
+		border-radius: var(--rsp-border-radius);
+		margin-top: var(--rsp-spacing-m);
+		width: 100%;
+
+		&.cmplz-wsc-alert-warning {
+			background-color: var(--rsp-yellow-faded);
+		}
+
+		.cmplz-wsc-alert-title {
+			font-weight: bold;
+		}
+	}
+}

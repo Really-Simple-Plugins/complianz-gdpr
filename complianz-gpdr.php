@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR/CCPA Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 7.1.5
+ * Version: 7.2.0
  * Requires at least: 5.9
  * Requires PHP: 7.4
  * Text Domain: complianz-gdpr
@@ -67,7 +67,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $scan;
 		public static $sync;
 		public static $wizard;
-		public static $onboarding;
 		public static $export_settings;
 		public static $rsp_upgrade_to_pro;
 		public static $banner_loader;
@@ -79,6 +78,10 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $support;
 		public static $proof_of_consent;
 		public static $documents_admin;
+		public static $websitescan;
+		public static $wsc_onboarding;
+		public static $wsc_api;
+		public static $wsc_scanner;
 
 		private function __construct() {
 			$this->setup_constants();
@@ -97,8 +100,9 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$progress        = new cmplz_progress();
 				self::$documents_admin = new cmplz_documents_admin();
 				self::$wizard          = new cmplz_wizard();
-				self::$onboarding      = new cmplz_onboarding();
-				self::$sync               = new cmplz_sync();
+				self::$sync            = new cmplz_sync();
+				self::$websitescan		= new cmplz_wsc();
+				self::$wsc_onboarding	= new cmplz_wsc_onboarding();
 			}
 
 			if (cmplz_admin_logged_in() || cmplz_scan_in_progress() ) {
@@ -109,6 +113,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			self::$cookie_blocker = new cmplz_cookie_blocker();
 			self::$banner_loader       = new cmplz_banner_loader();
 			self::$document           = new cmplz_document();
+			self::$wsc_api            = new cmplz_wsc_api();
+			self::$wsc_scanner        = new cmplz_wsc_scanner();
 		}
 
 		/**
@@ -135,7 +141,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			//for auto upgrade functionality
 			define( 'cmplz_plugin_free', plugin_basename( __FILE__ ) );
 			$debug = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '#'.time() : '';
-			define( 'cmplz_version', '7.1.5' . $debug );
+			define( 'cmplz_version', '7.2.0' . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
 		}
 
@@ -148,7 +154,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance )
-			     && ! ( self::$instance instanceof COMPLIANZ )
+				&& ! ( self::$instance instanceof COMPLIANZ )
 			) {
 				self::$instance = new self();
 			}
@@ -179,16 +185,18 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'class-export.php' );
 				require_once( cmplz_path . 'documents/admin-class-documents.php' );
 				require_once( cmplz_path . 'settings/wizard.php' );
-				require_once( cmplz_path . 'onboarding/class-onboarding.php' );
 				require_once( cmplz_path . 'mailer/class-mail.php');
 				require_once( cmplz_path . 'placeholders/class-placeholders.php' );
 
 				if ( isset($_GET['install_pro'])) {
 					require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
 				}
+
 				require_once( cmplz_path . 'upgrade.php' );
 				require_once(cmplz_path . 'DNSMPD/class-admin-DNSMPD.php');
 				require_once(cmplz_path . 'cookie/class-sync.php');
+				/* Website Scan */
+				require_once( cmplz_path . 'websitescan/class-wsc.php' );
 			}
 
 			if (cmplz_admin_logged_in() || cmplz_scan_in_progress() ) {
@@ -203,6 +211,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
 			require_once(cmplz_path . 'config/class-config.php');
 			require_once(cmplz_path . 'class-cookie-blocker.php');
+			require_once(cmplz_path . 'websitescan/class-wsc-api.php');
+			require_once(cmplz_path . 'websitescan/class-wsc-scanner.php');
 		}
 
 		private function hooks() {

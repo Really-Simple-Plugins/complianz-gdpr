@@ -8,14 +8,14 @@
 	opacity: 0.45;
 	width: 100%;
 	height: 100%;
-	z-index: 2;
+	z-index: 15;
 }
 
 .cmplz-modal {
 	max-width: 526px;
-	min-width:200px;
+	min-width:526px;
 	position: fixed;
-	z-index: 3;
+	z-index: 20;
 	border-radius: 12px;
 	background-color: white;
 	top: 50%;

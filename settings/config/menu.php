@@ -23,7 +23,7 @@ function cmplz_menu() {
 						[
 							'id'       => 'visitors',
 							'title'    => __( 'Visitors', 'complianz-gdpr' ),
-							'intro' => __('The Complianz wizard will guide you through the necessary steps to configure your website for privacy legislation around the world. We designed the wizard to be comprehensible, without making concessions in legal compliance.','intro first step', 'complianz-gdpr'),
+							'intro' => __('The Complianz wizard will guide you through the necessary steps to configure your website for privacy legislation around the world. We designed the wizard to be comprehensible, without making concessions in legal compliance.', 'complianz-gdpr'),
 						],
 						[
 							'id' => 'documents',
@@ -102,7 +102,7 @@ function cmplz_menu() {
 					'menu_items' => [
 						[
 							'id' => 'cookie-scan',
-							'title' => __('Site scan', 'complianz-gdpr' ),
+							'title' => __('Website Scan', 'complianz-gdpr' ),
 							'intro' => __( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ).' '. cmplz_sprintf( __( 'For more information, %sread our 5 tips%s about the site scan.', 'complianz-gdpr'), '<a href="https://complianz.io/cookie-scan-results/" target="_blank">','</a>'),
 							'helpLink' => 'https://complianz.io/cookie-scan-results/',
 							'save_buttons_required' => false,
@@ -252,20 +252,17 @@ function cmplz_menu() {
 							'id'       => 'settings-general',
 							'title'    => __( 'General',  'complianz-gdpr'  ),
 							'intro'    => __( 'Missing any settings? We have moved settings to Tools, available in the menu.',  'complianz-gdpr'  ),
-
 						],
 					],
 				],
-
 				[
 					'id'       => 'settings-cd',
 					'group_id' => 'settings-cd',
-					'title'    => 'Cookiedatabase.org',
+					'title'    => 'APIs',
 					'groups'   => [
 						[
 							'id'       => 'settings-cd',
 							'title'    => 'Cookiedatabase.org',
-
 						],
 					],
 				],

@@ -280,6 +280,12 @@ function cmplz_load_warning_types() {
 			'include_in_progress' => false,
 			'url' => '#wizard/consent-statistics',
 		),
-
+		'textdomain-just-in-time-notice' => array(
+			'dismissible' => true,
+			'open' => __( 'You might see a notice about Complianz when debugging your WordPress website. Although not a breaking issue, pleasee know we\'re attending to this issue.', 'complianz-gdpr' ),
+			'warning_condition' => (defined('WP_DEBUG') && WP_DEBUG) ? '_true_' : '_false_',
+			'include_in_progress' => false,
+			'url' => 'https://complianz.io/doing-it-wrong-notice',
+		)
 	) );
 }

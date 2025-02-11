@@ -115,6 +115,27 @@ if (isset($cmplz_settings['clear_data_on_uninstall']) && $cmplz_settings['clear_
         'complianz_options_settings',
         'complianz_options_wizard',
         'complianz_scan_token',
+        'cmplz_wsc_error_email_not_sent',
+        'cmplz_wsc_signup_status',
+        'cmplz_wsc_signup_date',
+        'cmplz_wsc_status',
+        'cmplz_wsc_error_email_mismatch',
+        'cmplz_wsc_error_missing_token',
+        'cmplz_wsc_error_email_auth_failed',
+        'cmplz_wsc_auth_completed',
+        'cmplz_wsc_connection_updated',
+        'cmplz_wsc_error_token_api',
+        'cmplz_wsc_onboarding_status',
+        'cmplz_wsc_onboarding_start',
+        'cmplz_wsc_onboarding_complete',
+		'cmplz_wsc_scan_id',
+		'cmplz_wsc_scan_createdAt',
+		'cmplz_wsc_scan_status',
+		'cmplz_wsc_scan_iteration',
+		'cmplz_wsc_scan_progress',
+		'cmplz_wsc_onboarding_dismissed',
+		'cmplz_wsc_scan_first_run',
+		'cmplz_wsc_reset_complete',
     ];
 
 
@@ -131,7 +152,12 @@ if (isset($cmplz_settings['clear_data_on_uninstall']) && $cmplz_settings['clear_
         'cmplz_%_custom_page',
         'cmplz_purposes_%',
         'cmplz_serviceTypes_%',
-    ];
+        'cmplz_consent_%',
+        'cmplz_wsc_user_deletion_%',
+        'cmplz_newsletter_signup_%',
+		'cmplz_%_consentdata',
+		'cmplz_consent_error_%'
+	];
 
     foreach ($dynamic_options as $option_name) {
         $wpdb->query(
